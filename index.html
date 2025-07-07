@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mud Gods | Earth Sculpting Artistry</title>
+   <link rel="icon" type="image/png" href="./image/silhouette.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #5D4037;
+            --primary: #8D6E63;
+            --primary-light: #D7CCC8;
+            --accent: #FFAB91;
+            --dark: #3E2723;
+            --light: #F5F5F5;
+            --white: #FFFFFF;
+            --text: #212121;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(93, 64, 55, 0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(93, 64, 55, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            background-color: var(--primary-dark);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent);
+            z-index: -2;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .btn:hover {
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover::after {
+            transform: translateY(0);
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--dark);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent);
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .mud-drop {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: drip 1.5s infinite;
+        }
+
+        @keyframes drip {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(20px) scale(0.9);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced Navigation */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(245, 245, 245, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(141, 110, 99, 0.1);
+        }
+
+        .sticky-header.scrolled {
+            padding: 10px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo span {
+            color: var(--primary-dark);
+            position: relative;
+        }
+
+        .logo span::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+         text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding: 8px 0;
+            color: var(--dark);
+            font-size: 16px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--accent);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--primary-dark);
+            transition: var(--transition);
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--accent);
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+            max-width: 650px;
+            color: var(--white);
+            padding: 40px;
+            background: rgba(61, 40, 34, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 1s forwards 0.5s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .mud-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .mud-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            filter: brightness(0.8);
+        }
+
+        .mud-slide.active {
+            opacity: 1;
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+        }
+
+        .slider-prev, .slider-next {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-prev:hover, .slider-next:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .mud-texture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23ffffff" stroke-width="0.5" stroke-opacity="0.1" stroke-dasharray="2,2"/></svg>');
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* About Section */
+        .about-section {
+            background-color: var(--white);
+        }
+
+        .about-section .container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .mud-texture {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-light);
+            border-radius: 20px;
+            z-index: 1;
+            top: -20px;
+            left: -20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            background: var(--light);
+            padding: 20px;
+            border-radius: 15px;
+            flex: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .stat:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .number {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            background-color: var(--light);
+        }
+
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            height: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: var(--white);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .item-overlay {
+            opacity: 1;
+        }
+
+        /* Workshops Section */
+        .workshops-section {
+            background-color: var(--white);
+        }
+
+        .workshops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .workshop-card {
+            background-color: var(--light);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .workshop-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .workshop-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .workshop-content {
+            padding: 25px;
+        }
+
+        .workshop-content h3 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+        }
+
+        .date, .duration {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--dark);
+            gap: 8px;
+        }
+
+        .date i, .duration i {
+            color: var(--accent);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--light);
+            text-align: center;
+        }
+
+        .testimonials-slider {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .testimonial {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .testimonial.active {
+            opacity: 1;
+        }
+
+        .quote {
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 30px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .quote::before, .quote::after {
+            content: '"';
+            font-size: 50px;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .quote::before {
+            top: -20px;
+            left: -10px;
+        }
+
+        .quote::after {
+            bottom: -40px;
+            right: -10px;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid var(--primary);
+        }
+
+        .author span {
+            display: block;
+            font-size: 14px;
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        .testimonial-controls {
+            margin-top: 30px;
+        }
+
+        .testimonial-prev, .testimonial-next {
+            background: none;
+            border: 2px solid var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            color: var(--primary);
+            cursor: pointer;
+            margin: 0 10px;
+            transition: var(--transition);
+        }
+
+        .testimonial-prev:hover, .testimonial-next:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: var(--white);
+        }
+
+        .contact-section .container {
+            display: flex;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .contact-method i {
+            font-size: 24px;
+            color: var(--primary);
+            background: var(--light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .contact-form {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: 10px;
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--light);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(141, 110, 99, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 80px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(transparent, var(--dark));
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-col h3 {
+            color: var(--primary-light);
+            margin-bottom: 25px;
+            font-size: 22px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            display: inline-block;
+            padding: 5px 0;
+            transition: var(--transition);
+            color: var(--primary-light);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .newsletter-form button {
+            width: 50px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            position: absolute;
+            right: 0;
+            height: 100%;
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-section .container,
+            .contact-section .container {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                margin-top: 50px;
+            }
+            
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 80%;
+                height: 100vh;
+                background-color: var(--light);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+                gap: 25px;
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            nav ul li {
+                margin: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 70px 0;
+            }
+            
+            .hero-content {
+                text-align: center;
+                padding: 30px 20px;
+            }
+            
+            .slider-controls {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .slider-prev, .slider-next {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .workshops-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="mud-drop"></div>
+    </div>
+
+    <header class="sticky-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-hands"></i>
+                Mud<span>Gods</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#workshops">Workshops</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="mud-slider">
+            <div class="mud-slide active" style="background-image: url('https://images.unsplash.com/photo-1618336753974-aae8e04506aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+            <div class="mud-slide" style="background-image: url('https://www.gsd.harvard.edu/wp-content/uploads/2018/03/01152018_Mud_Jterm_Heringer67-web-1024x682.jpg')"></div>
+            <div class="mud-slide" style="background-image: url('https://dims.apnews.com/dims4/default/a1696f1/2147483647/strip/true/crop/3758x2506+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F39%2Fad%2F920777aed66934e4ed8109305ff5%2F862c9300149440449aaa9bb49cbc55c0')"></div>
+            <div class="mud-texture-overlay"></div>
+        </div>
+        <div class="slider-controls">
+            <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Shape the Earth with Divine Hands</h1>
+               <p style="display: flex; align-items: center; gap: 12px;">
+                  Discover the ancient art of mud sculpting with modern techniques and create timeless masterpieces
+                  <img src="./image/potter.png" alt="" width="48" style="vertical-align: middle; margin-bottom: 4px;">
+               </p>
+                <a href="#workshops" class="btn">Join a Workshop Today</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">We Are Mud Gods <img style="width: 60px; vertical-align: middle;" src="./image/indian.png" alt=""></h2>
+            <div class="about-content">
+                <p>For centuries, humans have shaped earth into art. We continue this tradition with reverence for the material and innovation in technique.</p>
+                <p>Our collective of artists and craftspeople explore the boundaries of what can be created with simple earth and water, transforming humble materials into divine creations.</p>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="number" data-count="15">0</span>
+                        <span>Years Experience</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number" data-count="237">0</span>
+                        <span>Workshops Held</span>
+                    </div>
+                    <div class="stat">
+                        <span class="number" data-count="5000">0</span>
+                        <span>Happy Customer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <div class="mud-texture"></div>
+                <img src="https://images.pexels.com/photos/18496445/pexels-photo-18496445/free-photo-of-procession-of-a-beautiful-idol-of-lord-ganesha.jpeg" alt="Mud sculptor at work">
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Creations <img src="./image/labour.png" alt=""></h2>
+            <div class="gallery-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="sculpture">Sculptures</button>
+                <button class="filter-btn" data-filter="architecture">Architecture</button>
+                <button class="filter-btn" data-filter="functional">Functional</button>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="sculpture">
+                    <img src="https://images.pexels.com/photos/18496451/pexels-photo-18496451.jpeg?cs=srgb&dl=pexels-saurabh-solanki-730261070-18496451.jpg&fm=jpg" alt="Mud sculpture">
+                    <div class="item-overlay">
+                        <h3>Earth Guardian</h3>
+                        <p>Life-size sculpture, 2022</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="architecture">
+                    <img src="https://images.squarespace-cdn.com/content/v1/57cf18ae6b8f5ba693497e1a/1728885962632-CMT34LK7J344F79EH7VQ/India+Arisan+lead.jpg?format=2500w" alt="Mud building">
+                    <div class="item-overlay">
+                        <h3>Desert Dome</h3>
+                        <p>Architectural installation, 2021</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="functional">
+                    <img src="https://dims.apnews.com/dims4/default/4dfe842/2147483647/strip/true/crop/6000x4000+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fa2%2F35%2F1907fb2939e1e5659185cb04e530%2F88e6517410d342f39139cd670cce2898" alt="Mud pottery">
+                    <div class="item-overlay">
+                        <h3>Rustic Vessels</h3>
+                        <p>Functional pottery collection, 2023</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="sculpture">
+                    <img src="https://dims.apnews.com/dims4/default/61c0bad/2147483647/strip/true/crop/6000x4000+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F53%2Ff0%2Fae790549c6008d45c478856d688e%2Fed7c27d6ab844e8283ba2da051d81cb2" alt="Abstract mud sculpture">
+                    <div class="item-overlay">
+                        <h3>Formless</h3>
+                        <p>Abstract series, 2020</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="architecture">
+                    <img src="https://www.hindustantimes.com/ht-img/img/2024/09/13/550x309/ganesh-visarjan_4d96b8b4-7a83-11e6-9f8c-92f0a5be7f74_1726209675848.jpg" alt="Mud wall">
+                    <div class="item-overlay">
+                        <h3>Textured Wall</h3>
+                        <p>Architectural feature, 2019</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="functional">
+                    <img src="https://thumbs.dreamstime.com/b/kolkata-india-september-making-durga-idol-worship-hindu-goddess-durga-durga-puja-best-festival-bengali-158992961.jpg" alt="Mud bowls">
+                    <div class="item-overlay">
+                        <h3>Everyday Earth</h3>
+                        <p>Tableware collection, 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="workshops-section" id="workshops">
+        <div class="container">
+            <h2 class="section-title">Upcoming Workshops <img src="./image/blowing.png" alt=""></h2>
+            <p class="section-subtitle">Get your hands dirty with our expert-led sessions</p>
+            
+            <div class="workshops-grid">
+                <div class="workshop-card">
+                    <div class="workshop-image" style="background-image: url('https://thannal.com/wp-content/uploads/2021/07/Architecture-students-natural-building-workshop.jpg');"></div>
+                    <div class="workshop-content">
+                        <h3>Introduction to Mud Sculpting</h3>
+                        <p class="date"><i class="far fa-calendar"></i> June 15, 2025</p>
+                        <p class="duration"><i class="far fa-clock"></i> 2-day workshop</p>
+                        <p>Learn the fundamentals of working with earth to create simple sculptures and forms.</p>
+                        <a href="#" class="btn btn-small">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="workshop-card">
+                    <div class="workshop-image" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEgFtxROKsSJ8bNSH3gERFXyxeXrbwy4MxnxCM8DtSEvF2dgb8P3owiAK_o_BXihEEIkbk9JPvMXjuAXYpYtq-e4aLaR8iUDIA4-n-JiH2X-hi1PPG5HYgRbduODYwFRKBedWBn2PoTq22aRhsuX_EFeXYQlmNPNckTQMsylG1jQAskq-zdnsM8Y5zzXSQ=w640-h320');"></div>
+                    <div class="workshop-content">
+                        <h3>Earthen Architecture</h3>
+                        <p class="date"><i class="far fa-calendar"></i> July 8, 2025</p>
+                        <p class="duration"><i class="far fa-clock"></i> 3-day intensive</p>
+                        <p>Explore traditional and modern techniques for building with mud and natural materials.</p>
+                        <a href="#" class="btn btn-small">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="workshop-card">
+                    <div class="workshop-image" style="background-image: url('https://www.stjamespark.biz/wp-content/uploads/2020/02/a.jpg?189db0&189db0');"></div>
+                    <div class="workshop-content">
+                        <h3>Advanced Sculpting Techniques</h3>
+                        <p class="date"><i class="far fa-calendar"></i> August 12, 2025</p>
+                        <p class="duration"><i class="far fa-clock"></i> 5-day masterclass</p>
+                        <p>For experienced sculptors looking to refine their technique and develop personal style.</p>
+                        <a href="#" class="btn btn-small">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What People Say</h2>
+            <div class="testimonials-slider">
+                <div class="testimonial active">
+                    <div class="quote">"The Mud Gods workshop transformed how I see earth as a material. I never knew mud could be so versatile and expressive!"</div>
+                    <div class="author">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
+                        <p>Sarah J.<br><span>Sculptor</span></p>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="quote">"Incredible instructors who make ancient techniques feel fresh and relevant. I've attended three workshops and will be back for more."</div>
+                    <div class="author">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
+                        <p>Michael T.<br><span>Architect</span></p>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="quote">"Working with mud connects you to the earth in a profound way. The Mud Gods team facilitates this connection beautifully."</div>
+                    <div class="author">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya K.">
+                        <p>Priya K.<br><span>Artist</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-controls">
+                <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-info">
+                <p>Have questions about our workshops or want to commission a piece? Reach out to us.</p>
+                
+                <div class="contact-method">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>123 Earth Lane<br>Clayville, CA 90210</p>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-phone"></i>
+                    <p>(555) 123-4567</p>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <p>contact@mudgods.com</p>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="subject" placeholder="Subject">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Mud Gods</h3>
+                    <p>Celebrating the art and craft of earth since 2008. Transforming humble materials into divine creations.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#workshops">Workshops</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for workshop updates and mud art inspiration.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Mud Gods. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loader
+            setTimeout(function() {
+                document.querySelector('.loader').classList.add('fade-out');
+            }, 1000);
+
+            // Mobile Menu
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navMenu = document.querySelector('nav ul');
+
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                this.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Sticky Header
+            const header = document.querySelector('.sticky-header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Hero Slider
+            const slides = document.querySelectorAll('.mud-slide');
+            const prevBtn = document.querySelector('.slider-prev');
+            const nextBtn = document.querySelector('.slider-next');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Auto slide change
+            let slideInterval = setInterval(nextSlide, 6000);
+
+            // Pause on hover
+            const slider = document.querySelector('.mud-slider');
+            slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            slider.addEventListener('mouseleave', () => slideInterval = setInterval(nextSlide, 6000));
+
+            // Testimonial Slider
+            const testimonials = document.querySelectorAll('.testimonial');
+            const testimonialPrev = document.querySelector('.testimonial-prev');
+            const testimonialNext = document.querySelector('.testimonial-next');
+            let currentTestimonial = 0;
+
+            function showTestimonial(n) {
+                testimonials.forEach(testimonial => testimonial.classList.remove('active'));
+                currentTestimonial = (n + testimonials.length) % testimonials.length;
+                testimonials[currentTestimonial].classList.add('active');
+            }
+
+            testimonialNext.addEventListener('click', () => showTestimonial(currentTestimonial + 1));
+            testimonialPrev.addEventListener('click', () => showTestimonial(currentTestimonial - 1));
+
+            // Gallery Filter
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Animated Counter
+            const counters = document.querySelectorAll('.number');
+            const speed = 200;
+
+            function animateCounters() {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-count');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(animateCounters, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                });
+            }
+
+            // Start counters when section is in view
+            const aboutSection = document.querySelector('.about-section');
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(aboutSection);
+                }
+            });
+
+            observer.observe(aboutSection);
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                        }
+                    }
+                });
+            });
+
+            // Form submission
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // Show success message
+                    alert('Thank you for your message! We will get back to you soon.');
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+
+            // Set active navigation link based on scroll position
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav ul li a');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - sectionHeight / 3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
